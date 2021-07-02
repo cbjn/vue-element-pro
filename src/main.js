@@ -5,9 +5,11 @@ import 'element-ui/lib/theme-chalk/index.css'
 import store from '@/store'
 import router from '@/router'
 
+import "assets/global.css"
 Vue.config.productionTip = false
 
 Vue.use(ElementUI)
+
 
 new Vue({
     store,
