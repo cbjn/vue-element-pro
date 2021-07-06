@@ -1,7 +1,8 @@
 import { createStore } from 'vuex'
+import token from "./modules/token"
 
 const store = createStore({
-    modules: {}
+    modules: {token}
 })
 
 export default store
