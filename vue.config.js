@@ -17,17 +17,6 @@ module.exports = {
     //不需要生产环境的 source map,设置为false
     productionSourceMap: process.env.NODE_ENV === "production" ? false : true,
 
-    pages: {
-
-        index: {
-            entry: 'src/main.js',
-            template: 'public/index.html',
-            filename: 'index.html',
-            title: 'vue-element-pro',
-            chunks: ['chunk-vendors', 'chunk-common', 'index']
-        },
-    },
-
     devServer: {
         port: port,
         open: false,
@@ -36,15 +25,15 @@ module.exports = {
             errors: true
         },
         hot: true, //自动保存
-        // proxy: { //解决跨域问题@update
-        //     [process.env.VUE_APP_BASE_API]: {
-        //         target: 'http://127.0.0.1:8880/web', //这里就改成你的api路径
-        //         changeOrigin: true,
-        //         pathRewrite: {
-        //             ['^' + process.env.VUE_APP_BASE_API]: ''
-        //         }
-        //     }
-        // },
+        proxy: { //解决跨域问题@update
+            '/web/api': { //按钮菜单取本地数据
+                target: 'http://127.0.0.1:8088', //这里就改成你的api路径
+                changeOrigin: true,
+                pathRewrite: {
+                    '^/web/api': '/'
+                }
+            },
+        },
     },
 
     configureWebpack: config => {
