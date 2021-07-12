@@ -120,7 +120,9 @@ export default {
   width: 300px;
   right: 320px;
   top: 280px;
-  background: url("~@/assets/login/denglukuang01.png") center no-repeat;
+  border: 2px solid rgb(159 238 254);
+  border-radius: 10px;
+  /* background: url("~@/assets/login/denglukuang01.png") center no-repeat; */
   position: absolute;
 }
 .el-form {
