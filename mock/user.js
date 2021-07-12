@@ -5,7 +5,7 @@ const tokens = {
 
 export default {
     'post|/web/api/login': (option) => {
-        const { username } = option.body
+        const { username } = JSON.parse(option.body)
         const token = tokens[username]
         if (!token)
             return {
@@ -15,7 +15,7 @@ export default {
         return {
             code: 200,
             msg: 'success',
-            data: { token },
+            data: { token, username },
         }
     },
 };
