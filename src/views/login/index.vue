@@ -26,16 +26,22 @@
                 placeholder="请输入密码"
               ></el-input>
             </el-form-item>
-            <el-form-item prop="code">
-              <el-row>
-                <el-col :span="12">
+            <el-row>
+              <el-col :span="12">
+                <el-form-item prop="code">
                   <el-input v-model="form.code" placeholder="请输入验证码"></el-input>
-                </el-col>
-                <el-col :span="12">
-                  <div class="grid-content bg-purple-light"></div>
-                </el-col>
-              </el-row>
-            </el-form-item>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <div class="codeimgBox" @click="Code">
+                  <canvas
+                    id="myCanvas"
+                    class="J_codeimg"
+                    ref="myCanvas"
+                  >对不起，您的浏览器不支持canvas，请下载最新版浏览器!</canvas>
+                </div>
+              </el-col>
+            </el-row>
             <el-form-item style="text-align:center;">
               <el-button type="primary" @click="submitForm('loginForm')">登录</el-button>
               <el-button @click="resetForm('loginForm')">取消</el-button>
@@ -56,6 +62,18 @@
 
 export default {
   data() {
+    var validateCode = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入验证码'));
+      } else {
+        if (this.form.code !== this.CodeVal) {
+          callback(new Error('验证码输入有误'));
+          this.Code();
+        } else {
+          callback();
+        }
+      }
+    };
     return {
       title: "vue-element-pro管理系统",
       form: {
@@ -73,10 +91,14 @@ export default {
           { min: 3, message: '最少3个字符', trigger: 'blur' }
         ],
         code: [
-          { required: true, message: '请输入验证码', trigger: 'blur' },
+          { validator: validateCode, trigger: 'blur' },
         ]
-      }
+      },
+      CodeVal: ""
     }
+  },
+  mounted() {
+    this.Code();
   },
   methods: {
     submitForm(formName) {
@@ -92,7 +114,35 @@ export default {
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
+    },
+    createCode(e) {
+      let code = "";
+      let codeLength = 4;
+      let selectChar = new Array(1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'j', 'k', 'l', 'm',
+        'n', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K',
+        'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z');
+      for (let i = 0; i < codeLength; i++) {
+        let charIndex = Math.floor(Math.random() * 57);
+        code += selectChar[charIndex];
+      }
+      if (code.length != codeLength) {
+        this.createCode(e);
+      }
+      return code;
+    },
+    Code() {
+      this.showCheck(this.createCode(""));
+    },
+    showCheck(a) {
+      this.CodeVal = a;
+      var c = this.$refs.myCanvas;
+      var ctx = c.getContext("2d");
+      ctx.clearRect(0, 0, 1000, 1000);
+      ctx.font = "110px 'Hiragino Sans GB'";
+      ctx.fillStyle = "#FFFFFF";
+      ctx.fillText(a, 0, 100);
     }
+
   }
 }
 </script>
@@ -141,5 +191,12 @@ export default {
   text-align: center;
   font-weight: bold;
   padding: 15px 0;
+}
+.J_codeimg {
+  height: 40px;
+}
+.codeimgBox {
+  text-align: center;
+  margin-bottom: 32px;
 }
 </style>
