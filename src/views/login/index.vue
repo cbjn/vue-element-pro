@@ -59,6 +59,7 @@
 </template>
 
 <script>
+import { getCode } from "api/login";
 
 export default {
   data() {
@@ -66,7 +67,8 @@ export default {
       if (value === '') {
         callback(new Error('请输入验证码'));
       } else {
-        if (this.form.code !== this.CodeVal) {
+        //验证码不区分大小写
+        if (this.form.code.toLowerCase() !== this.CodeVal.toLowerCase()) {
           callback(new Error('验证码输入有误'));
           this.Code();
         } else {
@@ -115,23 +117,10 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
-    createCode(e) {
-      let code = "";
-      let codeLength = 4;
-      let selectChar = new Array(1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'j', 'k', 'l', 'm',
-        'n', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K',
-        'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z');
-      for (let i = 0; i < codeLength; i++) {
-        let charIndex = Math.floor(Math.random() * 57);
-        code += selectChar[charIndex];
-      }
-      if (code.length != codeLength) {
-        this.createCode(e);
-      }
-      return code;
-    },
     Code() {
-      this.showCheck(this.createCode(""));
+      getCode().then((response) => {
+        this.showCheck(response.data.data);
+      })
     },
     showCheck(a) {
       this.CodeVal = a;

@@ -8,3 +8,12 @@ export function login(params) {
         data: params
     })
 }
+
+//验证码
+export function getCode(params) {
+    return request({
+        url: '/api/getCode',
+        method: 'get',
+        params: params
+    })
+}
