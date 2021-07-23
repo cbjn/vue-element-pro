@@ -1,14 +1,15 @@
 <!--  -->
 <template>
-  <Layout>
+  <Layout :headerHeight="'80px'" style="background-color: #f9fafc;" :showAside="showAside">
     <template v-slot:header>
-      <Header></Header>
+      <Header @click-show-hide-aside="clickShowHideAside"></Header>
     </template>
     <template v-slot:aside>
       <Aside></Aside>
     </template>
     <template #main>
-      <router-view></router-view>
+      <!-- <router-view></router-view> -->
+      内容
     </template>
   </Layout>
 </template>
@@ -21,6 +22,7 @@ import Header from "@/views/index/header";
 export default {
   data() {
     return {
+      showAside: true
     }
   },
   components: {
@@ -31,6 +33,11 @@ export default {
   computed: {
     username() {
       return this.$store.getters["token/username"]; //需要监听的数据
+    }
+  },
+  methods: {
+    clickShowHideAside() {
+      this.showAside = !this.showAside;
     }
   }
 }
