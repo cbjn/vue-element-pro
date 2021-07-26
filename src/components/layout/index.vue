@@ -5,7 +5,7 @@
             <slot name="header"></slot>
         </el-header>
         <el-container>
-            <el-aside :width="asideWidth" v-show="showAside">
+            <el-aside :width="asideWidth">
                 <slot name="aside"></slot>
             </el-aside>
             <el-main>
@@ -29,10 +29,6 @@ export default {
         asideWidth: {
             type: String,
             default: "245px"
-        },
-        showAside: {
-            type: Boolean,
-            default: true
         }
     }
 }

@@ -1,11 +1,11 @@
 <!--  -->
 <template>
-  <Layout :headerHeight="'80px'" style="background-color: #f9fafc;" :showAside="showAside">
+  <Layout :headerHeight="'80px'" style="background-color: #f9fafc;" :asideWidth="'auto'">
     <template v-slot:header>
       <Header @click-show-hide-aside="clickShowHideAside"></Header>
     </template>
     <template v-slot:aside>
-      <Aside></Aside>
+      <Aside :isCollapse="showAside"></Aside>
     </template>
     <template #main>
       <!-- <router-view></router-view> -->
@@ -22,7 +22,7 @@ import Header from "@/views/index/header";
 export default {
   data() {
     return {
-      showAside: true
+      showAside: false
     }
   },
   components: {
